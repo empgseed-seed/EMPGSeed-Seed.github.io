@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="WideSearch Benchmark evaluates large language models on wide-context information gathering tasks.">
+  <meta name="keywords" content="WideSearch, Benchmark, LLM, Agent, Information Gathering">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>WideSearch: Benchmarking Agentic Broad Info-Seeking</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -25,25 +25,246 @@
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
 
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.24/dist/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+  <style>
+      :root {
+          --widesearch-primary: #3273dc; /* Bulma's default primary color */
+          --widesearch-light: #f5f5f5;
+          --single-agent-color: #ffdd57; /* yellow */
+          --multi-agent-color: #48c78e; /* green */
+          --e2e-system-color: #f14668; /* red */
+      }
+      .publication-title {
+        font-size: 2.5rem;
+      }
+      .hero.teaser {
+        background-color: var(--widesearch-light);
+      }
+      .hero-body .subtitle {
+        margin-top: 1.5rem;
+      }
+      .data-card {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        margin-bottom: 1rem;
+      }
+      .data-card .title {
+        font-size: 2.5rem;
+        color: var(--widesearch-primary);
+      }
+      .data-card .heading {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .section-title {
+        margin-bottom: 3rem;
+      }
+      .methodology-step {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .methodology-step .step-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--widesearch-primary);
+        margin-right: 1.5rem;
+        min-width: 50px;
+        text-align: center;
+      }
+      .methodology-step .step-content {
+        flex-grow: 1;
+      }
+      .icon-list li {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+      }
+      .icon-list .icon {
+        margin-right: 1rem;
+        color: var(--widesearch-primary);
+      }
+      .leaderboard-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+      }
+      .footer {
+        padding: 3rem 1.5rem 3rem;
+      }
+      .stat-highlight {
+        color: var(--widesearch-primary);
+        font-weight: bold;
+      }
+      .task-example-img {
+        max-width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+
+      /* Styles for Image Modal */
+      .task-example-img.zoomable {
+        cursor: pointer;
+        transition: opacity 0.3s;
+      }
+      .task-example-img.zoomable:hover {
+        opacity: 0.7;
+      }
+      .modal.image-modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        padding-top: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0); /* Solid black background */
+      }
+      .modal-content.image-modal-content {
+        margin: auto;
+        display: block;
+        width: 90%;
+        max-width: 1200px;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+      }
+      @keyframes zoom {
+        from {transform:scale(0.1)}
+        to {transform:scale(1)}
+      }
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+      .modal-close:hover,
+      .modal-close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .modal-caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+      }
+      
+      /* Fancy Leaderboard Styles */
+      #leaderboard-table {
+        border-collapse: separate;
+        border-spacing: 0 8px;
+        margin-top: -8px;
+      }
+      #leaderboard-table thead th {
+        background-color: transparent;
+        border: none;
+        color: #7a7a7a;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+      }
+      #leaderboard-table tbody tr {
+        background-color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        border-radius: 8px;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      #leaderboard-table tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      }
+      #leaderboard-table td, #leaderboard-table th {
+        border: none;
+        vertical-align: middle;
+      }
+      #leaderboard-table td:first-child, #leaderboard-table th:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+      #leaderboard-table td:last-child, #leaderboard-table th:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+      .agent-type-badge {
+        display: inline-block;
+        padding: 0.25em 0.6em;
+        font-size: 0.75rem;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+        color: #fff;
+      }
+      .agent-type-single-agent {
+        background-color: var(--single-agent-color);
+        color: rgba(0,0,0,0.7);
+      }
+      .agent-type-multi-agent {
+        background-color: var(--multi-agent-color);
+      }
+      .agent-type-e2e-system {
+        background-color: var(--e2e-system-color);
+      }
+      .is-key-metric {
+        font-weight: 600;
+        color: var(--widesearch-primary);
+      }
+      .author-block, .contribution-block {
+          display: inline-block;
+      }
+
+      @media only screen and (max-width: 768px){
+        .modal-content.image-modal-content {
+          width: 100%;
+        }
+        .leaderboard-table-wrapper {
+          box-shadow: inset -10px 0 8px -8px rgba(0,0,0,0.1), inset 10px 0 8px -8px rgba(0,0,0,0.1);
+        }
+      }
+  </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.24/dist/js/bulma-carousel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/js/bulma-slider.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Navbar burger toggle
+      $(".navbar-burger").click(function() {
+        $(".navbar-burger").toggleClass("is-active");
+        $(".navbar-menu").toggleClass("is-active");
+      });
+    });
+  </script>
 </head>
 <body>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      <strong class="is-size-4">WideSearch</strong>
+    </a>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -52,122 +273,86 @@
   </div>
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
+      <a class="navbar-item" href="#overview">Overview</a>
+      <a class="navbar-item" href="#methodology">Methodology</a>
+      <a class="navbar-item" href="#leaderboard">Leaderboard</a>
+      <a class="navbar-item" href="#dataset">Dataset</a>
+      <a class="navbar-item" href="#code">Code</a>
+      <a class="navbar-item" href="#paper">Paper</a>
     </div>
-
   </div>
 </nav>
 
 
-<section class="hero">
+<section class="hero is-medium">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-1 publication-title">WideSearch: Benchmarking Agentic Broad Info-Seeking</h1>
+          <!-- <h2 class="subtitle is-3">Evaluating Frontier Agents on Broad Information Seeking</h2> -->
           <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
-            <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
-            </span>
+            <p>A rigorous benchmark designed to test an agent's ability to search, synthesize, and verify information across the web.</p>
           </div>
 
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+          <div class="is-size-5 publication-authors" style="margin-top: 1rem;">
+            <span class="author-block">Ryan Wong<sup>*</sup>,</span>
+            <span class="author-block"><a href="https://jarvisustc.github.io/">Jiawei Wang</a><sup>*</sup></a>,</span>
+            <span class="author-block">Junjie Zhao</span>
+            <span class="author-block">Li Chen</span>
+            <span class="author-block">Yan Gao</span>
+            <span class="author-block">Long Zhang</span>
+            <span class="author-block">Xuan Zhou</span>
+            <span class="author-block">Zuo Wang</span>
+            <span class="author-block">Kai Xiang</span>
+            <span class="author-block">Yang Wang<sup>†</sup>,</span>
+            <span class="author-block">Ke Wang<sup>†</sup></span>
           </div>
 
-          <div class="column has-text-centered">
+          <div class="is-size-4 publication-authors">
+            <span class="author-block">ByteDance Seed</span>
+          </div>
+          <div class="is-size-6 publication-authors" style="margin-top: 0.5rem;">
+              <span class="contribution-block"><sup>*</sup>Co-first authors,</span>
+              <span class="contribution-block"><sup>†</sup>Corresponding authors</span>
+          </div>
+          
+          <div class="columns is-centered is-vcentered" style="margin-top: 2rem;">
+            <div class="column">
+              <div class="data-card">
+                <p class="title">200</p>
+                <p class="heading">Challenging Tasks</p>
+              </div>
+            </div>
+            <div class="column">
+              <div class="data-card">
+                <p class="title">2.3<span class="is-size-4">hrs</span></p>
+                <p class="heading">Avg. Human Time</p>
+              </div>
+            </div>
+            <div class="column">
+              <div class="data-card">
+                <p class="title">44+</p>
+                <p class="heading">Avg. Pages Consulted</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="column has-text-centered" style="margin-top: 1rem;">
             <div class="publication-links">
-              <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
+                <a href="#leaderboard" class="button is-primary is-rounded is-large">
+                  <span class="icon"><i class="fas fa-trophy"></i></span>
+                  <span>View Leaderboard</span>
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
+                <a href="#dataset" class="button is-light is-rounded is-large">
+                  <span class="icon"><i class="fas fa-database"></i></span>
+                  <span>Get the Dataset</span>
                 </a>
               </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
             </div>
-
           </div>
         </div>
       </div>
@@ -175,316 +360,464 @@
   </div>
 </section>
 
-<section class="hero teaser">
+<section class="section" id="overview">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
-    </div>
-  </div>
-</section>
+    <h2 class="title is-3 has-text-centered section-title">The WideSearch Paradigm</h2>
 
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <!--/ Paper video. -->
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
+    <!-- Part 1: The Problem & Solution -->
+    <div class="columns is-vcentered">
+      <div class="column is-7">
         <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
+          <h3>From Tedious Labor to Automated Workflows</h3>
           <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
+            Many real-world information-gathering tasks are not hard, just huge. Consider a financial analyst compiling key metrics for all companies in a sector, or a job seeker collecting every vacancy that meets their criteria. The challenge isn't cognitive complexity, but the sheer scale and repetitive nature of the work—a critical productivity bottleneck.
           </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
+          <p>
+            WideSearch is designed to evaluate an agent's ability to automate these tasks, shifting from laborious manual collection to efficient, automated workflows. This shift, however, introduces novel failure modes like hallucination and incompleteness, making rigorous evaluation essential.
+          </p>
         </div>
       </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
+      <div class="column is-5">
+          <figure class="image">
+              <img src="static/images/widesearch-overview.png" data-large-src="static/images/widesearch-overview.png" alt="A conceptual comparison of manual and agent-based approaches for WideSearch tasks." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x400';">
+              <figcaption class="has-text-centered is-size-7 mt-2">WideSearch evaluates the shift from manual data collection to automated agent workflows. (Click to enlarge)</figcaption>
+          </figure>
       </div>
     </div>
-    <!--/ Matting. -->
 
-    <!-- Animation. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
+    <!-- Part 2: The Paradigm Shift -->
+    <div class="columns is-vcentered is-reversed-desktop" style="margin-top: 4rem;">
+       <div class="column is-7">
+        <div class="content">
+          <h3>A New Paradigm: Wide vs. Deep</h3>
           <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
+            Current research primarily focuses on "deep" tasks. <strong>DeepSearch</strong> tackles the "I can't find it" problem of locating hidden facts, while <strong>DeepResearch</strong> addresses the "I can't write it well" problem of synthesizing reports.
+          </p>
+          <p>
+            In sharp contrast, <strong>WideSearch</strong> tackles the "I don't have time to do it" problem. It requires agents to systematically find and organize large-scale information into a structured table, shifting the primary challenge from deep reasoning to achieving <strong>exhaustiveness</strong> and <strong>fidelity</strong> at scale.
           </p>
         </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
+      </div>
+      <div class="column is-5">
+          <figure class="image">
+              <img src="static/images/widesearch-wide-vs-deep.png" data-large-src="static/images/widesearch-wide-vs-deep.png" alt="An overview and detailed comparison of DeepSearch, DeepResearch, and our WideSearch." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x400';">
+              <figcaption class="has-text-centered is-size-7 mt-2">Contrasting the core tasks and value of WideSearch, DeepSearch, and DeepResearch. (Click to enlarge)</figcaption>
+          </figure>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section hero is-light" id="methodology">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered section-title">A Rigorous Methodology</h2>
+      <div class="columns">
+        <div class="column is-6">
+          <h3 class="title is-4">Five-Stage Curation Pipeline</h3>
+          <figure class="image">
+            <img src="static/images/widesearch-data-curation.png" data-large-src="static/images/widesearch-data-curation.png" alt="Data Curation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x450';">
+            <figcaption class="has-text-centered is-size-7 mt-2">Our five-stage data curation and validation pipeline. (Click to enlarge)</figcaption>
+          </figure>
+        </div>
+        <div class="column is-6">
+          <h3 class="title is-4">Six Design Principles</h3>
+          <div class="content">
+            <ul class="icon-list">
+              <li><span class="icon"><i class="fas fa-search-plus"></i></span><span><strong>High Search Volume and Breadth:</strong> Tasks require extensive search and collation of numerous data points.</span></li>
+              <li><span class="icon"><i class="fas fa-shield-alt"></i></span><span><strong>Temporal and Contextual Invariance:</strong> Ground-truth answers are stable over time and across contexts.</span></li>
+              <li><span class="icon"><i class="fas fa-check-circle"></i></span><span><strong>Objective Verifiability:</strong> Facts are deterministic, allowing for consistent and reproducible scoring.</span></li>
+              <li><span class="icon"><i class="fas fa-globe"></i></span><span><strong>Public Accessibility:</strong> All required information is publicly available via standard search engines.</span></li>
+              <li><span class="icon"><i class="fas fa-tools"></i></span><span><strong>Reliance on External Tools:</strong> Tasks are designed to be unsolvable using only an LLM's parametric knowledge.</span></li>
+              <li><span class="icon"><i class="fas fa-cubes"></i></span><span><strong>Scenario Diversity:</strong> The benchmark spans 18 distinct industries to ensure generalizability.</span></li>
+            </ul>
           </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
+        </div>
+      </div>
+      <div class="columns is-centered" style="margin-top: 3rem;">
+          <div class="column is-10 has-text-centered">
+              <h3 class="title is-4">Benchmark Statistics</h3>
+              <p class="subtitle is-6">Quantitative analysis substantiates the complexity of our benchmark. Human studies show tasks require significant time and research.</p>
+              <div class="columns">
+                  <div class="column">
+                      <img src="static/images/widesearch-human-times.png" data-large-src="static/images/widesearch-human-times.png" alt="Distribution of task completion time." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x450';">
+                      <p class="is-size-7 mt-2">Distribution of human completion time across random 100 tasks. (Click to enlarge)</p>
+                  </div>
+                  <div class="column">
+                      <img src="static/images/widesearch-web-pages.png" data-large-src="static/images/widesearch-web-pages.png" alt="Distribution of source web pages consulted." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x450';">
+                      <p class="is-size-7 mt-2">Distribution of source web pages consulted across random 100 tasks. (Click to enlarge)</p>
+                  </div>
+              </div>
+              <div class="columns is-centered mt-4">
+                  <div class="column is-10">
+                      <img src="static/images/widesearch-topic-distribution.png" data-large-src="static/images/widesearch-topic-distribution.png" alt="Distribution of topics." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/800x450';">
+                      <p class="is-size-7 mt-2">Distribution of 18 distinct topics across 200 tasks. (Click to enlarge)</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="evaluation">
+    <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered section-title">Evaluation Framework & Metrics</h2>
+        <div class="columns is-vcentered">
+            <div class="column is-7">
+                <h3 class="title is-4">Automated Evaluation Pipeline</h3>
+                <p>We employ a robust, three-stage automated pipeline to ensure accurate and scalable scoring, combining deterministic checks with LLM-as-a-judge for semantic nuances.</p>
+                 <figure class="image mt-4">
+                    <img src="static/images/widesearch-eval-pipeline.png" data-large-src="static/images/widesearch-eval-pipeline.png" alt="Evaluation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x300';">
+                    <figcaption class="has-text-centered is-size-7 mt-2">Our three-stage automated evaluation pipeline. (Click to enlarge)</figcaption>
+                </figure>
             </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
+            <div class="column is-5">
+                <h3 class="title is-4">Key Metrics</h3>
+                <div class="content">
+                    <ul>
+                        <li><strong>Success Rate (SR):</strong> The most stringent metric; requires a perfect, 100% match with the ground-truth table.</li>
+                        <li><strong>Row-level F1 Score:</strong> Treats each table row as a unit, measuring the agent's ability to retrieve complete and correct records.</li>
+                        <li><strong>Item-level F1 Score:</strong> The most granular metric, evaluating each individual cell for fine-grained accuracy.</li>
+                    </ul>
+                </div>
+                <h3 class="title is-4 mt-5">Reporting Strategy</h3>
+                <div class="content">
+                    <p>We report performance using two aggregation strategies over N independent runs:</p>
+                    <ul>
+                        <li><strong>Avg@N:</strong> The average performance across N trials, measuring reliability.</li>
+                        <li><strong>Pass@N:</strong> The best score achieved in N trials, capturing peak capability.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <br/>
-        <!--/ Interpolating. -->
+    </div>
+</section>
 
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
+<section class="section hero is-light" id="leaderboard">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered section-title">Leaderboard</h2>
+      <div class="has-text-centered mb-5">
+        <button class="button is-info" id="sort-leaderboard-btn">
+          <span class="icon"><i class="fas fa-sort-amount-down"></i></span>
+          <span>Sort by Success Rate (Avg@4)</span>
+        </button>
+      </div>
+      <div class="leaderboard-table-wrapper">
+        <table class="table is-fullwidth" id="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Model / System</th>
+              <th>Agent Type</th>
+              <th class="has-text-centered">SR (Avg@4)</th>
+              <th class="has-text-centered">SR (Pass@4)</th>
+              <th class="has-text-centered">Row F1 (Avg@4)</th>
+              <th class="has-text-centered">Row F1 (Pass@4)</th>
+              <th class="has-text-centered">Item F1 (Avg@4)</th>
+              <th class="has-text-centered">Item F1 (Pass@4)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Single Agent -->
+            <tr>
+              <td>Claude Sonnet 4 (Thinking)</td>
+              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Gemini 2.5 Pro</td>
+              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>K2</td>
+              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>DeepSeek-R1-0528</td>
+              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Doubao-1.6</td>
+              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Doubao-1.6-non-thinking</td>
+              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <!-- Multi-Agent Framework -->
+            <tr>
+              <td>Claude Sonnet 4 (Thinking)</td>
+              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Gemini 2.5 Pro</td>
+              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>K2</td>
+              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+             <tr>
+              <td>DeepSeek-R1-0528</td>
+              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Doubao-1.6</td>
+              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Doubao-1.6-non-thinking</td>
+              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <!-- End-to-End Systems -->
+            <tr>
+              <td>OpenAI o3-high</td>
+              <td><span class="agent-type-badge agent-type-e2e-system">E2E System</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Gemini 2.5 Pro</td>
+              <td><span class="agent-type-badge agent-type-e2e-system">E2E System</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+            <tr>
+              <td>Claude Sonnet 4 (Thinking)</td>
+              <td><span class="agent-type-badge agent-type-e2e-system">E2E System</span></td>
+              <td class="has-text-centered is-key-metric">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+              <td class="has-text-centered">TBD</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <!--/ Animation. -->
+  </div>
+</section>
 
-
-    <!-- Concurrent Work. -->
+<section class="section" id="dataset">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered section-title">Dataset & Code</h2>
     <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
+        <div class="column is-5 has-text-centered">
+            <div class="box" style="padding: 2rem;">
+                <span class="icon is-large has-text-primary"><i class="fas fa-database fa-3x"></i></span>
+                <h3 class="title is-4 mt-4">Get the Dataset</h3>
+                <p>The full WideSearch benchmark dataset, including all 200 tasks and ground-truth tables, is available for download.</p>
+                <a href="#" class="button is-primary is-outlined mt-4">Download Now</a>
+            </div>
         </div>
+        <div class="column is-5 has-text-centered">
+            <div class="box" style="padding: 2rem;">
+                <span class="icon is-large has-text-dark"><i class="fab fa-github fa-3x"></i></span>
+                <h3 class="title is-4 mt-4">Access the Code</h3>
+                <p>Our GitHub repository contains the evaluation scripts, documentation, and instructions for running the benchmark.</p>
+                <a href="#" class="button is-dark is-outlined mt-4">View on GitHub</a>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light" id="paper">
+  <div class="container is-max-desktop content">
+    <h2 class="title has-text-centered section-title">Paper & Citation</h2>
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <div class="box">
+          <p class="has-text-centered">For a detailed description of the benchmark, methodology, and experimental results, please refer to our paper.</p>
+          <div class="has-text-centered mt-4">
+            <a href="#" class="button is-primary is-rounded">
+              <span class="icon"><i class="fas fa-file-pdf"></i></span>
+              <span>Read the Paper (Link coming soon)</span>
+            </a>
+          </div>
+        </div>
+
+        <h3 class="title is-4 mt-6">BibTeX</h3>
+        <pre><code>@article{widesearch2025,
+  author    = {Ryan Wong, Jiawei Wang, Junjie Zhao, Li Chen, Yan Gao, Long Zhang, Xuan Zhou, Zuo Wang, Kai Xiang, Yang Wang, Ke Wang},
+  title     = {WideSearch: Benchmarking Agentic Broad Info-Seeking},
+  journal   = {arXiv preprint},
+  year      = {2025},
+}</code></pre>
       </div>
     </div>
-    <!--/ Concurrent Work. -->
-
   </div>
 </section>
 
-
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
-}</code></pre>
-  </div>
-</section>
+<!-- The Modal for image zoom -->
+<div id="imageModal" class="modal image-modal">
+  <span class="modal-close">&times;</span>
+  <img class="modal-content image-modal-content" id="modalImage">
+  <div id="modalCaption" class="modal-caption"></div>
+</div>
 
 
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            This website is licensed under a <a rel="license"
+      <p>
+        This website is licensed under a <a rel="license"
                                                 href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
-        </div>
-      </div>
+        Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p>
+        The website template was adapted from the <a
+          href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.
+      </p>
+      <p>
+        Contact: <a href="mailto:wangyang.127@bytedance.com">wangyang.127@bytedance.com</a> and <a href="mailto:wangke@bytedance.com">wangke@bytedance.com</a>
+      </p>
     </div>
   </div>
 </footer>
+
+<script>
+// This script handles the image modal and leaderboard sorting functionality
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Image Modal Functionality ---
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  const captionText = document.getElementById('modalCaption');
+  const closeBtn = document.querySelector('.modal-close');
+  const zoomableImages = document.querySelectorAll('.zoomable');
+
+  zoomableImages.forEach(img => {
+    img.addEventListener('click', () => {
+      modal.style.display = 'block';
+      modalImg.src = img.getAttribute('data-large-src') || img.src;
+      captionText.innerHTML = img.alt;
+    });
+  });
+
+  const closeModal = () => {
+    modal.style.display = 'none';
+  };
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.style.display === 'block') {
+      closeModal();
+    }
+  });
+
+  // --- Leaderboard Sorting Functionality ---
+  const sortBtn = document.getElementById('sort-leaderboard-btn');
+  sortBtn.addEventListener('click', () => {
+    const leaderboard = document.getElementById('leaderboard-table');
+    const tbody = leaderboard.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    rows.sort((a, b) => {
+      // Get the text from the 'SR (Avg@4)' column (3rd cell, index 2)
+      const valA_text = a.cells[2].textContent.trim();
+      const valB_text = b.cells[2].textContent.trim();
+
+      // Convert "TBD" to a very low number for sorting, otherwise parse the float
+      const valA = valA_text === 'TBD' ? -Infinity : parseFloat(valA_text);
+      const valB = valB_text === 'TBD' ? -Infinity : parseFloat(valB_text);
+      
+      // Sort in descending order
+      return valB - valA;
+    });
+
+    // Re-append the sorted rows to the table body
+    rows.forEach(row => tbody.appendChild(row));
+  });
+
+});
+</script>
 
 </body>
 </html>
