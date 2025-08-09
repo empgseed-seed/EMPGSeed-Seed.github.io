@@ -232,6 +232,15 @@
       .author-block, .contribution-block {
           display: inline-block;
       }
+      /* New styles for visitor stats */
+      #visitor-stats {
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: #7a7a7a;
+      }
+      #visitor-stats .icon {
+        vertical-align: middle;
+      }
 
       @media only screen and (max-width: 768px){
         .modal-content.image-modal-content {
@@ -259,6 +268,7 @@
 </head>
 <body>
 
+<!-- The body content remains the same until the footer -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="#">
@@ -304,6 +314,7 @@
             <span class="author-block">Zuo Wang,</span>
             <span class="author-block">Kai Xiang,</span>
             <span class="author-block">Ge Zhang,</span>
+            <span class="author-block">Wenhao Huang,</span>
             <span class="author-block">Yang Wang<sup>†</sup>,</span>
             <span class="author-block">Ke Wang<sup>†</sup></span>
           </div>
@@ -427,7 +438,7 @@
         <div class="column is-5">
           <h3 class="title is-4">Five-Stage Curation Pipeline</h3>
           <figure class="image">
-            <img src="static/images/widesearch-data-curation.png" data-large-src="static/images/widesearch-data-curation.png" alt="Data Curation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x450';">
+            <img src="static/images/widesearch-data-curation.png" data-large-src="static/images/widesearch-data-curation.png" alt="Data Curation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/500x550';">
             <figcaption class="has-text-centered is-size-7 mt-2">Our five-stage data curation and validation pipeline. (Click to enlarge)</figcaption>
           </figure>
         </div>
@@ -466,7 +477,7 @@
                 <h3 class="title is-4">Automated Evaluation Pipeline</h3>
                 <p>We employ a robust, three-stage automated pipeline to ensure accurate and scalable scoring, combining deterministic checks with LLM-as-a-judge for semantic nuances.</p>
                  <figure class="image mt-4">
-                    <img src="static/images/widesearch-eval-pipeline.png" data-large-src="static/images/widesearch-eval-pipeline.png" alt="Evaluation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x300';">
+                    <img src="static/images/widesearch-eval-pipeline.png" data-large-src="static/images/widesearch-eval-pipeline.png" alt="Evaluation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/500x550';">
                     <figcaption class="has-text-centered is-size-7 mt-2">Our three-stage automated evaluation pipeline. (Click to enlarge)</figcaption>
                 </figure>
             </div>
@@ -755,6 +766,14 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
+      <!-- START: Added Visitor Stats Section -->
+      <div id="visitor-stats">
+        <p>
+          <span class="icon"><i class="fas fa-users"></i></span>
+          Total Visitors: <span id="visitor-count" class="stat-highlight">Loading...</span>
+        </p>
+      </div>
+      <!-- END: Added Visitor Stats Section -->
       <p>
         This website is licensed under a <a rel="license"
                                                 href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
@@ -831,6 +850,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+
+<!-- START: Firebase and Visitor Counter Logic -->
+<script type="module">
+  // Import necessary functions from the Firebase SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // --- Firebase Configuration and Initialization ---
+  // These variables are expected to be provided by the environment.
+  const appId = typeof __app_id !== 'undefined' ? __app_id : 'widesearch-default-appid';
+  const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "YOUR_API_KEY", authDomain: "YOUR_AUTH_DOMAIN", projectId: "YOUR_PROJECT_ID" }; // Fallback config
+  
+  // Initialize Firebase app and services
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // --- Visitor Counter Logic ---
+  async function initializeVisitorCounter() {
+    try {
+      // Authenticate the user silently.
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+      
+      // Define the path to the document that stores site statistics.
+      // This uses a public path so all users contribute to the same counter.
+      const statsDocRef = doc(db, `artifacts/${appId}/public/data/sitestats`, "visits");
+
+      // Check if this visitor has already been counted in this session.
+      // This prevents the count from incrementing on every page reload.
+      if (!sessionStorage.getItem('visitorCounted')) {
+        const docSnap = await getDoc(statsDocRef);
+        if (docSnap.exists()) {
+          // If the document exists, increment the 'total' field.
+          await updateDoc(statsDocRef, {
+            total: increment(1)
+          });
+        } else {
+          // If the document doesn't exist, create it with the first visitor.
+          await setDoc(statsDocRef, {
+            total: 1
+          });
+        }
+        // Mark this session as counted.
+        sessionStorage.setItem('visitorCounted', 'true');
+      }
+
+      // Set up a real-time listener to display the count.
+      // This will update the UI whenever the data changes in Firestore.
+      onSnapshot(statsDocRef, (doc) => {
+        const visitorCountEl = document.getElementById('visitor-count');
+        if (doc.exists()) {
+          const count = doc.data().total;
+          visitorCountEl.textContent = count.toLocaleString(); // Format with commas
+        } else {
+          visitorCountEl.textContent = '1'; // Show 1 if doc is just being created
+        }
+      });
+
+    } catch (error) {
+      console.error("Error initializing visitor counter:", error);
+      const visitorCountEl = document.getElementById('visitor-count');
+      if(visitorCountEl) visitorCountEl.textContent = 'Unavailable';
+    }
+  }
+
+  // Run the counter initialization function when the DOM is ready.
+  document.addEventListener('DOMContentLoaded', initializeVisitorCounter);
+</script>
+<!-- END: Firebase and Visitor Counter Logic -->
 
 </body>
 </html>
