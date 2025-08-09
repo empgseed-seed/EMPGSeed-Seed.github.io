@@ -314,7 +314,6 @@
             <span class="author-block">Zuo Wang,</span>
             <span class="author-block">Kai Xiang,</span>
             <span class="author-block">Ge Zhang,</span>
-            <span class="author-block">Wenhao Huang,</span>
             <span class="author-block">Yang Wang<sup>†</sup>,</span>
             <span class="author-block">Ke Wang<sup>†</sup></span>
           </div>
@@ -855,14 +854,26 @@ document.addEventListener('DOMContentLoaded', () => {
 <script type="module">
   // Import necessary functions from the Firebase SDK
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
   // --- Firebase Configuration and Initialization ---
-  // These variables are expected to be provided by the environment.
-  const appId = typeof __app_id !== 'undefined' ? __app_id : 'widesearch-default-appid';
-  const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "YOUR_API_KEY", authDomain: "YOUR_AUTH_DOMAIN", projectId: "YOUR_PROJECT_ID" }; // Fallback config
+  // IMPORTANT: Replace this with your own Firebase project's configuration!
+  // You can get this from the Firebase console.
+  const firebaseConfig = {
+    apiKey: "AIzaSyCn0aD4VJg0A5CJzeBjB2kCWlGcHEaPQyw",
+    authDomain: "widesearch-250809.firebaseapp.com",
+    projectId: "widesearch-250809",
+    storageBucket: "widesearch-250809.firebasestorage.app",
+    messagingSenderId: "326731561929",
+    appId: "1:326731561929:web:599efa25330d865a070618",
+    measurementId: "G-2T0LMEH7ZS"
+  };
   
+  // A unique identifier for this specific page's stats.
+  // You can change this if you want to track stats for different pages.
+  const appId = 'widesearch-visitor-stats';
+
   // Initialize Firebase app and services
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -871,15 +882,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Visitor Counter Logic ---
   async function initializeVisitorCounter() {
     try {
-      // Authenticate the user silently.
-      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-        await signInWithCustomToken(auth, __initial_auth_token);
-      } else {
-        await signInAnonymously(auth);
-      }
+      // Authenticate the user silently using Anonymous Authentication.
+      // Make sure you have enabled Anonymous sign-in in your Firebase project.
+      await signInAnonymously(auth);
       
       // Define the path to the document that stores site statistics.
-      // This uses a public path so all users contribute to the same counter.
       const statsDocRef = doc(db, `artifacts/${appId}/public/data/sitestats`, "visits");
 
       // Check if this visitor has already been counted in this session.
