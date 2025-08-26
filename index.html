@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="WideSearch Benchmark evaluates large language models on wide-context information gathering tasks.">
-  <meta name="keywords" content="WideSearch, Benchmark, LLM, Agent, Information Gathering">
+        content="EMPG: Entropy-Modulated Policy Gradient for LLM Agents in Long-Horizon Tasks.">
+  <meta name="keywords" content="EMPG, LLM, Agent, Reinforcement Learning, Policy Gradient">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WideSearch: Benchmarking Agentic Broad Info-Seeking</title>
+  <title>EMPG: Entropy-Modulated Policy Gradient for LLM Agents</title>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
   <script>
@@ -32,17 +32,14 @@
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <style>
       :root {
-          --widesearch-primary: #3273dc; /* Bulma's default primary color */
-          --widesearch-light: #f5f5f5;
-          --single-agent-color: #ffdd57; /* yellow */
-          --multi-agent-color: #48c78e; /* green */
-          --e2e-system-color: #f14668; /* red */
+          --empg-primary: #3273dc; /* Bulma's default primary color */
+          --empg-light: #f5f5f5;
       }
       .publication-title {
         font-size: 2.5rem;
       }
       .hero.teaser {
-        background-color: var(--widesearch-light);
+        background-color: var(--empg-light);
       }
       .hero-body .subtitle {
         margin-top: 1.5rem;
@@ -57,7 +54,7 @@
       }
       .data-card .title {
         font-size: 2.5rem;
-        color: var(--widesearch-primary);
+        color: var(--empg-primary);
       }
       .data-card .heading {
         font-size: 1rem;
@@ -67,22 +64,6 @@
       .section-title {
         margin-bottom: 3rem;
       }
-      .methodology-step {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1.5rem;
-      }
-      .methodology-step .step-number {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--widesearch-primary);
-        margin-right: 1.5rem;
-        min-width: 50px;
-        text-align: center;
-      }
-      .methodology-step .step-content {
-        flex-grow: 1;
-      }
       .icon-list li {
         display: flex;
         align-items: flex-start;
@@ -90,17 +71,13 @@
       }
       .icon-list .icon {
         margin-right: 1rem;
-        color: var(--widesearch-primary);
-      }
-      .leaderboard-table-wrapper {
-        width: 100%;
-        overflow-x: auto;
+        color: var(--empg-primary);
       }
       .footer {
         padding: 3rem 1.5rem 3rem;
       }
       .stat-highlight {
-        color: var(--widesearch-primary);
+        color: var(--empg-primary);
         font-weight: bold;
       }
       .task-example-img {
@@ -166,96 +143,31 @@
         padding: 10px 0;
         height: 150px;
       }
-      
-      /* Fancy Leaderboard Styles */
-      #leaderboard-table {
-        border-collapse: separate;
-        border-spacing: 0 8px;
-        margin-top: -8px;
-      }
-      #leaderboard-table thead th {
-        background-color: transparent;
-        border: none;
-        color: #7a7a7a;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 0.5px;
-      }
-      #leaderboard-table tbody tr {
-        background-color: white;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        border-radius: 8px;
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-      #leaderboard-table tbody tr:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      }
-      #leaderboard-table td, #leaderboard-table th {
-        border: none;
-        vertical-align: middle;
-      }
-      #leaderboard-table td:first-child, #leaderboard-table th:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
-      #leaderboard-table td:last-child, #leaderboard-table th:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-      }
-      .agent-type-badge {
-        display: inline-block;
-        padding: 0.25em 0.6em;
-        font-size: 0.75rem;
-        font-weight: 700;
-        line-height: 1;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: baseline;
-        border-radius: 0.25rem;
-        color: #fff;
-      }
-      .agent-type-single-agent {
-        background-color: var(--single-agent-color);
-        color: rgba(0,0,0,0.7);
-      }
-      .agent-type-multi-agent {
-        background-color: var(--multi-agent-color);
-      }
-      .agent-type-e2e-system {
-        background-color: var(--e2e-system-color);
-      }
-      .is-key-metric {
-        font-weight: 600;
-        color: var(--widesearch-primary);
-      }
       .author-block, .contribution-block {
           display: inline-block;
       }
-      /* New styles for visitor stats */
-      #visitor-stats {
-        margin-bottom: 1.5rem;
-        font-size: 0.9rem;
-        color: #7a7a7a;
+      .equation {
+        font-family: 'Castoro', serif;
+        font-size: 1.2rem;
+        text-align: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       }
-      #visitor-stats .icon {
-        vertical-align: middle;
+      .table-container {
+        overflow-x: auto;
       }
-
       @media only screen and (max-width: 768px){
         .modal-content.image-modal-content {
           width: 100%;
-        }
-        .leaderboard-table-wrapper {
-          box-shadow: inset -10px 0 8px -8px rgba(0,0,0,0.1), inset 10px 0 8px -8px rgba(0,0,0,0.1);
         }
       }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.24/dist/js/bulma-carousel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/js/bulma-slider.min.js"></script>
   <script>
     $(document).ready(function() {
       // Navbar burger toggle
@@ -268,11 +180,10 @@
 </head>
 <body>
 
-<!-- The body content remains the same until the footer -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="#">
-      <strong class="is-size-4">WideSearch</strong>
+      <strong class="is-size-4">EMPG</strong>
     </a>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
       <span aria-hidden="true"></span>
@@ -283,83 +194,57 @@
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
       <a class="navbar-item" href="#overview">Overview</a>
-      <a class="navbar-item" href="#methodology">Methodology</a>
-      <a class="navbar-item" href="#leaderboard">Leaderboard</a>
-      <a class="navbar-item" href="https://huggingface.co/datasets/ByteDance-Seed/WideSearch" target="_blank">Dataset</a>
-      <a class="navbar-item" href="https://github.com/ByteDance-Seed/WideSearch" target="_blank">Code</a>
+      <a class="navbar-item" href="#motivation">Motivation</a>
+      <a class="navbar-item" href="#method">Method</a>
+      <a class="navbar-item" href="#results">Results</a>
       <a class="navbar-item" href="#paper">Paper</a>
     </div>
   </div>
 </nav>
 
 
-<section class="hero is-medium">
+<section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">WideSearch: Benchmarking Agentic Broad Info-Seeking</h1>
-          <div class="is-size-5 publication-authors">
-            <p>A rigorous benchmark designed to test an agent's ability to search, synthesize, and verify information across the web.</p>
-          </div>
-
+          <h1 class="title is-1 publication-title">Entropy-Modulated Policy Gradient for LLM Agents in Long-Horizon Tasks</h1>
           <div class="is-size-5 publication-authors" style="margin-top: 1rem;">
-            <span class="author-block">Ryan Wong<sup>*</sup>,</span>
-            <span class="author-block"><a href="https://jarvisustc.github.io/">Jiawei Wang</a><sup>*</sup>,</span>
-            <span class="author-block">Junjie Zhao,</span>
-            <span class="author-block">Li Chen,</span>
-            <span class="author-block">Yan Gao,</span>
-            <span class="author-block">Long Zhang,</span>
-            <span class="author-block">Xuan Zhou,</span>
-            <span class="author-block">Zuo Wang,</span>
-            <span class="author-block">Kai Xiang,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=qyTrq4kAAAAJ&hl=zh-CN&oi=ao">Ge Zhang</a>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?hl=zh-CN&user=OdE3MsQAAAAJ&view_op=list_works&sortby=pubdate">Wenhao Huang</a>,</span>
-            <span class="author-block">Yang Wang<sup>†</sup>,</span>
-            <span class="author-block">Ke Wang<sup>†</sup></span>
+            <span class="author-block">Jiawei Wang<sup>1,2,*</sup>,</span>
+            <span class="author-block">Jiacai Liu<sup>1,3,*</sup>,</span>
+            <span class="author-block">Yuqian Fu<sup>1,4,*</sup>,</span>
+            <span class="author-block">Yingru Li<sup>1</sup>,</span>
+            <span class="author-block">Yuan Lin<sup>1</sup>,</span>
+            <span class="author-block">Yu Yue<sup>1</sup>,</span>
+            <span class="author-block">Lin Zhang<sup>1</sup>,</span>
+            <span class="author-block">Xintao Wang<sup>1,3</sup>,</span>
+            <span class="author-block">Yang Wang<sup>1,†</sup>,</span>
+            <span class="author-block">Ke Wang<sup>1,†</sup></span>
           </div>
 
-          <div class="is-size-4 publication-authors" style="margin-top: 0.5rem;">
-            <span class="author-block">ByteDance Seed</span>
+          <div class="is-size-5 publication-authors" style="margin-top: 0.5rem;">
+            <span class="author-block"><sup>1</sup>ByteDance Seed,</span>
+            <span class="author-block"><sup>2</sup>University of Science and Technology of China,</span>
+            <span class="author-block"><sup>3</sup>Fudan University,</span>
+            <span class="author-block"><sup>4</sup>Institute of Automation, Chinese Academy of Sciences</span>
           </div>
           <div class="is-size-6 publication-authors" style="margin-top: 0.5rem;">
-              <span class="contribution-block"><sup>*</sup>Co-first authors,</span>
+              <span class="contribution-block"><sup>*</sup>Work done at ByteDance Seed,</span>
               <span class="contribution-block"><sup>†</sup>Corresponding authors</span>
           </div>
           
-          <div class="columns is-centered is-vcentered" style="margin-top: 2rem;">
-            <div class="column">
-              <div class="data-card">
-                <p class="title">200</p>
-                <p class="heading">Challenging Tasks</p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="data-card">
-                <p class="title">2.3<span class="is-size-4">hrs</span></p>
-                <p class="heading">Avg. Human Time</p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="data-card">
-                <p class="title">44+</p>
-                <p class="heading">Avg. Pages Consulted</p>
-              </div>
-            </div>
-          </div>
-
           <div class="column has-text-centered" style="margin-top: 1rem;">
             <div class="publication-links">
               <span class="link-block">
-                <a href="#leaderboard" class="button is-primary is-rounded is-large">
-                  <span class="icon"><i class="fas fa-trophy"></i></span>
-                  <span>View Leaderboard</span>
+                <a href="#paper" class="button is-primary is-rounded is-large">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Read the Paper</span>
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://huggingface.co/datasets/ByteDance-Seed/WideSearch" target="_blank" class="button is-light is-rounded is-large">
-                  <span class="icon"><i class="fas fa-database"></i></span>
-                  <span>Get the Dataset</span>
+                <a href="https://github.com/" target="_blank" class="button is-light is-rounded is-large">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code (Coming Soon)</span>
                 </a>
               </span>
             </div>
@@ -370,363 +255,142 @@
   </div>
 </section>
 
-<section class="section" id="overview">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered section-title">The WideSearch Paradigm</h2>
-
-    <div class="columns is-vcentered">
-      <div class="column is-7">
-        <div class="content">
-          <h3>From Tedious Labor to Automated Workflows</h3>
-          <p>
-            Many real-world information-gathering tasks are not hard, just huge. Consider a financial analyst compiling key metrics for all companies in a sector, or a job seeker collecting every vacancy that meets their criteria. The challenge isn't cognitive complexity, but the sheer scale and repetitive nature of the work—a critical productivity bottleneck.
-          </p>
-          <p>
-            WideSearch is designed to evaluate an agent's ability to automate these tasks, shifting from laborious manual collection to efficient, automated workflows. This shift, however, introduces novel failure modes like hallucination and incompleteness, making rigorous evaluation essential.
-          </p>
+<section class="section hero is-light" id="overview">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <h2 class="title is-3 has-text-centered section-title">Abstract</h2>
+            <div class="columns is-centered">
+                <div class="column is-10">
+                    <div class="content">
+                        <p>
+                            Large Language Model (LLM) agents face a significant challenge in long-horizon tasks due to sparse, outcome-based rewards that make credit assignment for intermediate steps difficult. We identify a fundamental problem in the learning dynamics itself: a policy gradient's magnitude is inherently coupled with its entropy, leading to inefficiently small updates for confident correct actions and potentially destabilizing large updates for uncertain ones. To resolve this, we propose <strong>Entropy-Modulated Policy Gradients (EMPG)</strong>, a framework that re-calibrates the learning signal based on step-wise uncertainty and the final task outcome. EMPG amplifies updates for confident correct actions, strongly penalizes confident errors to combat "hallucinated confidence," and attenuates updates from uncertain steps to stabilize exploration. We further introduce a "future clarity" intrinsic bonus that encourages the agent to find more predictable solution paths. Through comprehensive experiments on challenging benchmarks like WebShop, ALFWorld, and Deep Search, we demonstrate that EMPG achieves substantial performance gains and significantly outperforms strong policy gradient baselines.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="column is-5">
-          <figure class="image">
-              <img src="static/images/widesearch-overview.png" data-large-src="static/images/widesearch-overview.png" alt="A conceptual comparison of manual and agent-based approaches for WideSearch tasks." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x400';">
-              <figcaption class="has-text-centered is-size-7 mt-2">WideSearch evaluates the shift from manual data collection to automated agent workflows. (Click to enlarge)</figcaption>
-          </figure>
-      </div>
     </div>
-
-    <div class="columns is-vcentered is-reversed-desktop" style="margin-top: 4rem;">
-       <div class="column is-7">
-        <div class="content">
-          <h3>A New Paradigm: Wide vs. Deep</h3>
-          <p>
-            Current research primarily focuses on "deep" tasks. <strong>DeepSearch</strong> tackles the "I can't find it" problem of locating hidden facts, while <strong>DeepResearch</strong> addresses the "I can't write it well" problem of synthesizing reports.
-          </p>
-          <p>
-            In sharp contrast, <strong>WideSearch</strong> tackles the "I don't have time to do it" problem. It requires agents to systematically find and organize large-scale information into a structured table, shifting the primary challenge from deep reasoning to achieving <strong>exhaustiveness</strong> and <strong>fidelity</strong> at scale.
-          </p>
-        </div>
-      </div>
-      <div class="column is-5">
-          <figure class="image">
-              <img src="static/images/widesearch-wide-vs-deep.png" data-large-src="static/images/widesearch-wide-vs-deep.png" alt="An overview and detailed comparison of DeepSearch, DeepResearch, and our WideSearch." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x400';">
-              <figcaption class="has-text-centered is-size-7 mt-2">Contrasting the core tasks and value of WideSearch, DeepSearch, and DeepResearch. (Click to enlarge)</figcaption>
-          </figure>
-      </div>
-    </div>
-
-  </div>
 </section>
 
-<section class="section hero is-light" id="methodology">
+<section class="section" id="motivation">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered section-title">Theoretical Motivation</h2>
+      <div class="columns is-centered">
+          <div class="column is-10">
+              <div class="content">
+                  <p>
+                      Our approach is motivated by a fundamental analysis of the relationship between a policy's gradient and its predictive uncertainty. Standard policy gradients possess an inherent dynamic where high-entropy (uncertain) actions naturally produce large gradients, while low-entropy (confident) actions produce small ones. This presents a dual challenge:
+                  </p>
+                  <ol>
+                      <li>Confident and correct steps, which should be strongly reinforced, receive small updates, limiting learning speed.</li>
+                      <li>Uncertain exploratory steps can introduce large, noisy gradients that destabilize training.</li>
+                  </ol>
+                  <p>
+                      This dynamic is formally characterized by the following proposition:
+                  </p>
+                  <div class="box">
+                      <strong>Proposition 1.</strong> For a softmax policy, the expected squared L2-norm of the score function is a direct function of the policy's Rényi-2 entropy, H<sub>2</sub>(&pi;):
+                      <div class="equation">
+                        E<sub>a~&pi;</sub>[||&nabla;<sub>z</sub> log &pi;(a|s)||<sup>2</sup>] = 1 - exp(-H<sub>2</sub>(&pi;))
+                      </div>
+                  </div>
+                  <p>
+                      This shows that the expected gradient norm is monotonically coupled with policy entropy. Our goal is to re-calibrate this learning signal. EMPG provides a two-part re-calibration:
+                  </p>
+                  <h4 class="title is-4 mt-5">1. Self-Calibrating Gradient Scaling</h4>
+                  <p>This component directly addresses the issue by re-calibrating the magnitude of the update based on current-step uncertainty, amplifying reliable signals and attenuating noisy ones.</p>
+                  
+                  <h4 class="title is-4 mt-5">2. Future Clarity Bonus</h4>
+                  <p>
+                    However, re-calibrating the update magnitude is only half the solution. A truly effective learning signal must also guide the agent in a useful direction. This motivates our second component, the Future Clarity Bonus, which can be formally justified through the lens of information theory. By providing an intrinsic motivation for the agent to seek low-entropy next states, the bonus encourages actions that yield high Information Gain about the optimal future path. This corresponds to a local, step-wise objective of minimizing the policy's entropy at the next state:
+                  </p>
+                  <div class="equation">
+                    min H(&pi;<sub>&theta;</sub>(&middot;|s<sub>t+1</sub>))
+                  </div>
+                  <p>This objective imbues the agent with a generalizable meta-skill: to actively seek clarity in the face of ambiguity.</p>
+              </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+<section class="section hero is-light" id="method">
   <div class="hero-body">
     <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered section-title">A Rigorous Methodology</h2>
+      <h2 class="title is-3 has-text-centered section-title">The EMPG Framework</h2>
       <div class="columns is-vcentered">
         <div class="column is-7">
-          <h3 class="title is-4">Six Design Principles</h3>
           <div class="content">
-            <ul class="icon-list">
-              <li><span class="icon"><i class="fas fa-search-plus"></i></span><span><strong>High Search Volume and Breadth:</strong> Tasks require extensive search and collation of numerous data points.</span></li>
-              <li><span class="icon"><i class="fas fa-shield-alt"></i></span><span><strong>Temporal and Contextual Invariance:</strong> Ground-truth answers are stable over time and across contexts.</span></li>
-              <li><span class="icon"><i class="fas fa-check-circle"></i></span><span><strong>Objective Verifiability:</strong> Facts are deterministic, allowing for consistent and reproducible scoring.</span></li>
-              <li><span class="icon"><i class="fas fa-globe"></i></span><span><strong>Public Accessibility:</strong> All required information is publicly available via standard search engines.</span></li>
-              <li><span class="icon"><i class="fas fa-tools"></i></span><span><strong>Reliance on External Tools:</strong> Tasks are designed to be unsolvable using only an LLM's parametric knowledge.</span></li>
-              <li><span class="icon"><i class="fas fa-cubes"></i></span><span><strong>Scenario Diversity:</strong> The benchmark spans 18 distinct industries to ensure generalizability.</span></li>
-            </ul>
+            <h3>Entropy-Modulated Credit Assignment</h3>
+            <p>
+                Standard policy gradients treat all steps in a trajectory equally, which is inefficient. High-entropy (uncertain) actions produce large gradients, while low-entropy (confident) actions produce small ones. This can destabilize training and slow down learning on correct, confident steps.
+            </p>
+            <p>
+                EMPG solves this by modulating the credit assignment based on step-wise entropy. For a <strong>successful trajectory</strong>, it amplifies updates for confident steps and attenuates updates for uncertain ones, accelerating learning. For a <strong>failed trajectory</strong>, it strongly penalizes confident errors to fight "hallucinated confidence" while avoiding harsh penalties for uncertain exploration.
+            </p>
+            <h3>Future Clarity Bonus</h3>
+            <p>
+                EMPG also introduces a "future clarity" bonus. This intrinsic reward encourages the agent to take actions that lead to less uncertain (lower entropy) subsequent states. This guides the agent towards more predictable and stable solution paths, improving overall performance and reliability.
+            </p>
           </div>
         </div>
         <div class="column is-5">
-          <h3 class="title is-4">Five-Stage Curation Pipeline</h3>
-          <figure class="image">
-            <img src="static/images/widesearch-data-curation.png" data-large-src="static/images/widesearch-data-curation.png" alt="Data Curation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/500x550';">
-            <figcaption class="has-text-centered is-size-7 mt-2">Our five-stage data curation and validation pipeline. (Click to enlarge)</figcaption>
-          </figure>
+            <figure class="image">
+                <img src="static/images/overview.png" data-large-src="static/images/overview.png" alt="Conceptual diagram contrasting uniform credit assignment with EMPG's entropy-modulated approach." class="task-example-img zoomable">
+                <figcaption class="has-text-centered is-size-7 mt-2">EMPG's confidence-modulated credit assignment vs. baseline. (Click to enlarge)</figcaption>
+            </figure>
         </div>
-      </div>
-      <div class="columns is-centered" style="margin-top: 3rem;">
-          <div class="column is-10 has-text-centered">
-              <h3 class="title is-4">Benchmark Statistics</h3>
-              <p class="subtitle is-6">Quantitative analysis substantiates the complexity of our benchmark. Human studies show tasks require significant time and research.</p>
-              <div class="columns">
-                  <div class="column">
-                      <img src="static/images/widesearch-human-times.png" data-large-src="static/images/widesearch-human-times.png" alt="Distribution of task completion time." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x450';">
-                      <p class="is-size-7 mt-2">Distribution of human completion time across random 100 tasks. (Click to enlarge)</p>
-                  </div>
-                  <div class="column">
-                      <img src="static/images/widesearch-web-pages.png" data-large-src="static/images/widesearch-web-pages.png" alt="Distribution of source web pages consulted." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/600x450';">
-                      <p class="is-size-7 mt-2">Distribution of source web pages consulted across random 100 tasks. (Click to enlarge)</p>
-                  </div>
-              </div>
-              <div class="columns is-centered mt-4">
-                  <div class="column is-10">
-                      <img src="static/images/widesearch-topic-distribution.png" data-large-src="static/images/widesearch-topic-distribution.png" alt="Distribution of topics." class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/800x450';">
-                      <p class="is-size-7 mt-2">Distribution of 18 distinct topics across 200 tasks. (Click to enlarge)</p>
-                  </div>
-              </div>
-          </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="evaluation">
+<section class="section" id="results">
     <div class="container is-max-desktop">
-        <h2 class="title is-3 has-text-centered section-title">Evaluation Framework & Metrics</h2>
-        <div class="columns is-vcentered">
-            <div class="column is-6">
-                <h3 class="title is-4">Automated Evaluation Pipeline</h3>
-                <p>We employ a robust, three-stage automated pipeline to ensure accurate and scalable scoring, combining deterministic checks with LLM-as-a-judge for semantic nuances.</p>
-                 <figure class="image mt-4">
-                    <img src="static/images/widesearch-eval-pipeline.png" data-large-src="static/images/widesearch-eval-pipeline.png" alt="Evaluation Pipeline" class="task-example-img zoomable" onerror="this.onerror=null;this.src='https://placehold.co/500x550';">
-                    <figcaption class="has-text-centered is-size-7 mt-2">Our three-stage automated evaluation pipeline. (Click to enlarge)</figcaption>
+        <h2 class="title is-3 has-text-centered section-title">Experimental Results</h2>
+        <p class="subtitle is-5 has-text-centered">
+            EMPG consistently outperforms strong policy gradient baselines across challenging long-horizon benchmarks.
+        </p>
+
+        <div class="columns is-centered is-vcentered" style="margin-top: 2rem;">
+            <div class="column is-10">
+                <h3 class="title is-4 has-text-centered">Performance on ALFWorld and WebShop</h3>
+                <figure class="image">
+                    <img src="static/images/alfworld_webshop_exp.png" data-large-src="static/images/alfworld_webshop_exp.png" alt="Table of results for ALFWorld and WebShop benchmarks." class="task-example-img zoomable">
+                    <figcaption class="has-text-centered is-size-7 mt-2">Results on ALFWorld and WebShop. (Click to enlarge)</figcaption>
                 </figure>
             </div>
-            <div class="column is-6">
-                <h3 class="title is-4">Key Metrics</h3>
-                <div class="content">
-                    <ul>
-                        <li><strong>Success Rate (SR):</strong> The most stringent metric; requires a perfect, 100% match with the ground-truth table.</li>
-                        <li><strong>Row-level F1 Score:</strong> Treats each table row as a unit, measuring the agent's ability to retrieve complete and correct records.</li>
-                        <li><strong>Item-level F1 Score:</strong> The most granular metric, evaluating each individual cell for fine-grained accuracy.</li>
-                    </ul>
-                </div>
-                <h3 class="title is-4 mt-5">Reporting Strategy</h3>
-                <div class="content">
-                    <p>We report performance using two aggregation strategies over N independent runs:</p>
-                    <ul>
-                        <li><strong>Avg@N:</strong> The average performance across N trials, measuring reliability.</li>
-                        <li><strong>Pass@N and Max@N:</strong> The best score achieved in N trials, capturing peak capability.</li>
-                    </ul>
-                </div>
-            </div>
         </div>
-    </div>
-</section>
 
-<section class="section hero is-light" id="leaderboard">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered section-title">Leaderboard</h2>
-      <div class="has-text-centered mb-5">
-        <button class="button is-info" id="sort-leaderboard-btn">
-          <span class="icon"><i class="fas fa-sort-amount-down"></i></span>
-          <span>Sort by Success Rate (Avg@4)</span>
-        </button>
-      </div>
-      <div class="leaderboard-table-wrapper">
-        <table class="table is-fullwidth" id="leaderboard-table">
-          <thead>
-            <tr>
-              <th>Model / System</th>
-              <th>Agent Type</th>
-              <th class="has-text-centered">SR (Avg@4)</th>
-              <th class="has-text-centered">SR (Pass@4)</th>
-              <th class="has-text-centered">Row F1 (Avg@4)</th>
-              <th class="has-text-centered">Row F1 (Max@4)</th>
-              <th class="has-text-centered">Item F1 (Avg@4)</th>
-              <th class="has-text-centered">Item F1 (Max@4)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Claude Sonnet 4 (Thinking)</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">2.3</td>
-              <td class="has-text-centered">9.0</td>
-              <td class="has-text-centered">31.7</td>
-              <td class="has-text-centered">44.1</td>
-              <td class="has-text-centered">57.9</td>
-              <td class="has-text-centered">70.3</td>
-            </tr>
-            <tr>
-              <td>Gemini 2.5 Pro</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">1.5</td>
-              <td class="has-text-centered">7.0</td>
-              <td class="has-text-centered">30.0</td>
-              <td class="has-text-centered">45.8</td>
-              <td class="has-text-centered">51.0</td>
-              <td class="has-text-centered">70.0</td>
-            </tr>
-            <tr>
-              <td>OpenAI o3</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">4.5</td>
-              <td class="has-text-centered">9.0</td>
-              <td class="has-text-centered">34.0</td>
-              <td class="has-text-centered">44.1</td>
-              <td class="has-text-centered">52.6</td>
-              <td class="has-text-centered">62.3</td>
-            </tr>
-            <tr>
-              <td>Kimi K2</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">1.1</td>
-              <td class="has-text-centered">6.0</td>
-              <td class="has-text-centered">29.7</td>
-              <td class="has-text-centered">43.7</td>
-              <td class="has-text-centered">54.4</td>
-              <td class="has-text-centered">70.5</td>
-            </tr>
-            <tr>
-              <td>DeepSeek-R1</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">0.4</td>
-              <td class="has-text-centered">2.0</td>
-              <td class="has-text-centered">20.7</td>
-              <td class="has-text-centered">35.0</td>
-              <td class="has-text-centered">41.3</td>
-              <td class="has-text-centered">62.4</td>
-            </tr>
-            <tr>
-              <td>Doubao-Seed-1.6 (Thinking)</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">2.6</td>
-              <td class="has-text-centered">6.0</td>
-              <td class="has-text-centered">30.0</td>
-              <td class="has-text-centered">46.2</td>
-              <td class="has-text-centered">48.3</td>
-              <td class="has-text-centered">68.9</td>
-            </tr>
-            <tr>
-              <td>Doubao-Seed-1.6 (Non-Thinking)</td>
-              <td><span class="agent-type-badge agent-type-single-agent">Single Agent</span></td>
-              <td class="has-text-centered is-key-metric">1.0</td>
-              <td class="has-text-centered">5.0</td>
-              <td class="has-text-centered">27.2</td>
-              <td class="has-text-centered">42.3</td>
-              <td class="has-text-centered">49.0</td>
-              <td class="has-text-centered">68.2</td>
-            </tr>
-            <tr>
-              <td>Claude Sonnet 4 (Thinking)</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">3.6</td>
-              <td class="has-text-centered">6.5</td>
-              <td class="has-text-centered">38.5</td>
-              <td class="has-text-centered">52.2</td>
-              <td class="has-text-centered">62.2</td>
-              <td class="has-text-centered">73.1</td>
-            </tr>
-            <tr>
-              <td>Gemini 2.5 Pro</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">2.0</td>
-              <td class="has-text-centered">6.5</td>
-              <td class="has-text-centered">33.5</td>
-              <td class="has-text-centered">44.6</td>
-              <td class="has-text-centered">57.4</td>
-              <td class="has-text-centered">66.3</td>
-            </tr>
-            <tr>
-              <td>OpenAI o3</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">5.1</td>
-              <td class="has-text-centered">9.5</td>
-              <td class="has-text-centered">37.8</td>
-              <td class="has-text-centered">50.5</td>
-              <td class="has-text-centered">57.3</td>
-              <td class="has-text-centered">68.9</td>
-            </tr>
-            <tr>
-              <td>Kimi K2</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">3.0</td>
-              <td class="has-text-centered">6.5</td>
-              <td class="has-text-centered">36.2</td>
-              <td class="has-text-centered">49.6</td>
-              <td class="has-text-centered">61.2</td>
-              <td class="has-text-centered">70.7</td>
-            </tr>
-             <tr>
-              <td>DeepSeek-R1</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">0.8</td>
-              <td class="has-text-centered">3.0</td>
-              <td class="has-text-centered">22.9</td>
-              <td class="has-text-centered">36.6</td>
-              <td class="has-text-centered">44.3</td>
-              <td class="has-text-centered">60.3</td>
-            </tr>
-            <tr>
-              <td>Doubao-1.6</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">2.5</td>
-              <td class="has-text-centered">5.5</td>
-              <td class="has-text-centered">34.0</td>
-              <td class="has-text-centered">48.9</td>
-              <td class="has-text-centered">54.6</td>
-              <td class="has-text-centered">69.7</td>
-            </tr>
-            <tr>
-              <td>Doubao-Seed-1.6 (Non-Thinking)</td>
-              <td><span class="agent-type-badge agent-type-multi-agent">Multi-Agent</span></td>
-              <td class="has-text-centered is-key-metric">2.1</td>
-              <td class="has-text-centered">4.5</td>
-              <td class="has-text-centered">29.7</td>
-              <td class="has-text-centered">42.7</td>
-              <td class="has-text-centered">52.8</td>
-              <td class="has-text-centered">65.1</td>
-            </tr>
-            <tr>
-                <td>Claude Sonnet 4 (Thinking)</td>
-                <td><span class="agent-type-badge agent-type-e2e-system">E2E System</span></td>
-                <td class="has-text-centered is-key-metric">2.5</td>
-                <td class="has-text-centered">5.0</td>
-                <td class="has-text-centered">24.1</td>
-                <td class="has-text-centered">33.5</td>
-                <td class="has-text-centered">48.4</td>
-                <td class="has-text-centered">58.5</td>
-            </tr>
-            <tr>
-                <td>Gemini 2.5 Pro</td>
-                <td><span class="agent-type-badge agent-type-e2e-system">E2E System</span></td>
-                <td class="has-text-centered is-key-metric">4.3</td>
-                <td class="has-text-centered">8.0</td>
-                <td class="has-text-centered">36.6</td>
-                <td class="has-text-centered">45.4</td>
-                <td class="has-text-centered">59.1</td>
-                <td class="has-text-centered">67.2</td>
-            </tr>
-            <tr>
-                <td>OpenAI o3</td>
-                <td><span class="agent-type-badge agent-type-e2e-system">E2E System</span></td>
-                <td class="has-text-centered is-key-metric">3.0</td>
-                <td class="has-text-centered">5.5</td>
-                <td class="has-text-centered">23.9</td>
-                <td class="has-text-centered">36.0</td>
-                <td class="has-text-centered">45.5</td>
-                <td class="has-text-centered">56.5</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="columns is-centered is-vcentered" style="margin-top: 4rem;">
+            <div class="column is-10">
+                <h3 class="title is-4 has-text-centered">Performance on Deep Search</h3>
+                <figure class="image">
+                    <img src="static/images/deepsearch_exp.png" data-large-src="static/images/deepsearch_exp.png" alt="Table of results for the Deep Search benchmark." class="task-example-img zoomable">
+                     <figcaption class="has-text-centered is-size-7 mt-2">Results on Deep Search. (Click to enlarge)</figcaption>
+                </figure>
+            </div>
+        </div>
 
-<section class="section" id="dataset">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered section-title">Dataset & Code</h2>
-    <div class="columns is-centered">
-        <div class="column is-5 has-text-centered">
-            <div class="box" style="padding: 2rem;">
-                <span class="icon is-large has-text-primary"><i class="fas fa-database fa-3x"></i></span>
-                <h3 class="title is-4 mt-4">Get the Dataset</h3>
-                <p>The full WideSearch benchmark dataset, including all 200 tasks and ground-truth tables, is available for download.</p>
-                <a href="https://huggingface.co/datasets/ByteDance-Seed/WideSearch" target="_blank" class="button is-primary is-outlined mt-4">Download Now</a>
+
+        <h3 class="title is-4 has-text-centered" style="margin-top: 4rem;">Analysis</h3>
+        <div class="columns is-vcentered is-centered" style="margin-top: 2rem;">
+            <div class="column is-5">
+                <h4 class="title is-5 has-text-centered">Training Stability</h4>
+                <figure class="image">
+                    <img src="static/images/kl_loss_stability_comparison.png" data-large-src="static/images/kl_loss_stability_comparison.png" alt="KL Loss dynamics during training for the Qwen2.5-32B-Instruct model." class="task-example-img zoomable"> 
+                </figure>
+                <p class="is-size-7 mt-2 has-text-centered">The baseline agent (orange) suffers from late-stage instability, while the EMPG-enhanced agent (blue) remains stable throughout training. (Click to enlarge)</p>
             </div>
-        </div>
-        <div class="column is-5 has-text-centered">
-            <div class="box" style="padding: 2rem;">
-                <span class="icon is-large has-text-dark"><i class="fab fa-github fa-3x"></i></span>
-                <h3 class="title is-4 mt-4">Access the Code</h3>
-                <p>Our GitHub repository contains the evaluation scripts, documentation, and instructions for running the benchmark.</p>
-                <a href="https://github.com/ByteDance-Seed/WideSearch" target="_blank" class="button is-dark is-outlined mt-4">View on GitHub</a>
+            <div class="column is-5">
+                <h4 class="title is-5 has-text-centered">Step-Level Entropy Dynamics</h4>
+                <figure class="image">
+                    <img src="static/images/entropy_change_by_bin.png" data-large-src="static/images/entropy_change_by_bin.png" alt="Average entropy change after RL fine-tuning for each entropy percentile." class="task-example-img zoomable">
+                </figure>
+                <p class="is-size-7 mt-2 has-text-centered">Unlike token-level findings, even low-entropy steps undergo significant changes, validating our step-level analysis approach. (Click to enlarge)</p>
             </div>
         </div>
     </div>
-  </div>
 </section>
 
 <section class="section hero is-light" id="paper">
@@ -735,24 +399,23 @@
     <div class="columns is-centered">
       <div class="column is-10">
         <div class="box">
-          <p class="has-text-centered">For a detailed description of the benchmark, methodology, and experimental results, please refer to our paper.</p>
+          <p class="has-text-centered">For a detailed description of the method, experiments, and analysis, please refer to our paper.</p>
           <div class="has-text-centered mt-4">
-            <a href="https://arxiv.org/abs/2508.07999" class="button is-primary is-rounded">
+            <a href="https://arxiv.org" class="button is-primary is-rounded">
               <span class="icon"><i class="fas fa-file-pdf"></i></span>
-              <span>Read the Paper</span>
+              <span>Read on arXiv (Coming Soon)</span>
             </a>
           </div>
         </div>
 
         <h3 class="title is-4 mt-6">BibTeX</h3>
-        <pre><code>@misc{wong2025widesearchbenchmarkingagenticbroad,
-          title={WideSearch: Benchmarking Agentic Broad Info-Seeking}, 
-          author={Ryan Wong and Jiawei Wang and Junjie Zhao and Li Chen and Yan Gao and Long Zhang and Xuan Zhou and Zuo Wang and Kai Xiang and Ge Zhang and Wenhao Huang and Yang Wang and Ke Wang},
-          year={2025},
-          eprint={2508.07999},
-          archivePrefix={arXiv},
-          primaryClass={cs.CL},
-          url={https://arxiv.org/abs/2508.07999}, 
+        <pre><code>@misc{wang2025empg,
+      title={Entropy-Modulated Policy Gradient for LLM Agents in Long-Horizon Tasks}, 
+      author={Jiawei Wang and Jiacai Liu and Yuqian Fu and Yingru Li and Yuan Lin and Yu Yue and Lin Zhang and Xintao Wang and Yang Wang and Ke Wang},
+      year={2025},
+      eprint={your-arxiv-id},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
 }</code></pre>
       </div>
     </div>
@@ -769,24 +432,16 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <!-- START: Added Visitor Stats Section -->
-      <div id="visitor-stats">
-        <p>
-          <span class="icon"><i class="fas fa-users"></i></span>
-          Total Visitors: <span id="visitor-count" class="stat-highlight">Loading...</span>
-        </p>
-      </div>
-      <!-- END: Added Visitor Stats Section -->
       <p>
         This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                                              href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
         Commons Attribution-ShareAlike 4.0 International License</a>.
       </p>
       <p>
         The website template was adapted from the <a
           href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.
       </p>
-      <p>
+       <p>
         Contact: <a href="mailto:wangyang.127@bytedance.com">wangyang.127@bytedance.com</a> and <a href="mailto:wangke@bytedance.com">wangke@bytedance.com</a>
       </p>
     </div>
@@ -794,7 +449,7 @@
 </footer>
 
 <script>
-// This script handles the image modal and leaderboard sorting functionality
+// This script handles the image modal functionality
 document.addEventListener('DOMContentLoaded', () => {
   // --- Image Modal Functionality ---
   const modal = document.getElementById('imageModal');
@@ -826,115 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal();
     }
   });
-
-  // --- Leaderboard Sorting Functionality ---
-  const sortBtn = document.getElementById('sort-leaderboard-btn');
-  sortBtn.addEventListener('click', () => {
-    const leaderboard = document.getElementById('leaderboard-table');
-    const tbody = leaderboard.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
-
-    rows.sort((a, b) => {
-      // Get the text from the 'SR (Avg@4)' column (3rd cell, index 2)
-      const valA_text = a.cells[2].textContent.trim();
-      const valB_text = b.cells[2].textContent.trim();
-
-      // Convert "TBD" to a very low number for sorting, otherwise parse the float
-      const valA = valA_text === 'TBD' ? -Infinity : parseFloat(valA_text);
-      const valB = valB_text === 'TBD' ? -Infinity : parseFloat(valB_text);
-      
-      // Sort in descending order
-      return valB - valA;
-    });
-
-    // Re-append the sorted rows to the table body
-    rows.forEach(row => tbody.appendChild(row));
-  });
-
 });
 </script>
-
-<!-- START: Firebase and Visitor Counter Logic -->
-<script type="module">
-  // Import necessary functions from the Firebase SDK
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-  // --- Firebase Configuration and Initialization ---
-  // IMPORTANT: Replace this with your own Firebase project's configuration!
-  // You can get this from the Firebase console.
-  const firebaseConfig = {
-    apiKey: "AIzaSyCn0aD4VJg0A5CJzeBjB2kCWlGcHEaPQyw",
-    authDomain: "widesearch-250809.firebaseapp.com",
-    projectId: "widesearch-250809",
-    storageBucket: "widesearch-250809.firebasestorage.app",
-    messagingSenderId: "326731561929",
-    appId: "1:326731561929:web:599efa25330d865a070618",
-    measurementId: "G-2T0LMEH7ZS"
-  };
-  
-  // A unique identifier for this specific page's stats.
-  // You can change this if you want to track stats for different pages.
-  const appId = 'widesearch-visitor-stats';
-
-  // Initialize Firebase app and services
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // --- Visitor Counter Logic ---
-  async function initializeVisitorCounter() {
-    try {
-      // Authenticate the user silently using Anonymous Authentication.
-      // Make sure you have enabled Anonymous sign-in in your Firebase project.
-      await signInAnonymously(auth);
-      
-      // Define the path to the document that stores site statistics.
-      const statsDocRef = doc(db, `artifacts/${appId}/public/data/sitestats`, "visits");
-
-      // Check if this visitor has already been counted in this session.
-      // This prevents the count from incrementing on every page reload.
-      if (!sessionStorage.getItem('visitorCounted')) {
-        const docSnap = await getDoc(statsDocRef);
-        if (docSnap.exists()) {
-          // If the document exists, increment the 'total' field.
-          await updateDoc(statsDocRef, {
-            total: increment(1)
-          });
-        } else {
-          // If the document doesn't exist, create it with the first visitor.
-          await setDoc(statsDocRef, {
-            total: 1
-          });
-        }
-        // Mark this session as counted.
-        sessionStorage.setItem('visitorCounted', 'true');
-      }
-
-      // Set up a real-time listener to display the count.
-      // This will update the UI whenever the data changes in Firestore.
-      onSnapshot(statsDocRef, (doc) => {
-        const visitorCountEl = document.getElementById('visitor-count');
-        if (doc.exists()) {
-          const count = doc.data().total;
-          visitorCountEl.textContent = count.toLocaleString(); // Format with commas
-        } else {
-          visitorCountEl.textContent = '1'; // Show 1 if doc is just being created
-        }
-      });
-
-    } catch (error) {
-      console.error("Error initializing visitor counter:", error);
-      const visitorCountEl = document.getElementById('visitor-count');
-      if(visitorCountEl) visitorCountEl.textContent = 'Unavailable';
-    }
-  }
-
-  // Run the counter initialization function when the DOM is ready.
-  document.addEventListener('DOMContentLoaded', initializeVisitorCounter);
-</script>
-<!-- END: Firebase and Visitor Counter Logic -->
 
 </body>
 </html>
